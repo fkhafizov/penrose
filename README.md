@@ -2,6 +2,7 @@
 
 2026.07.05
 
+* https://fkhafizov.github.io/penrose/
 * https://chatgpt.com/c/6a4ab1ac-b814-83ea-b4ae-f99b9c97c21e
   
 Roger Penrose was strongly influenced by the mathematical framework that grew out of Paul Dirac’s work on relativistic quantum mechanics.
