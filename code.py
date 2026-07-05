@@ -1,0 +1,153 @@
+from pathlib import Path
+from textwrap import dedent
+
+out_dir = Path("/mnt/data/penrose_dirac_page")
+out_dir.mkdir(parents=True, exist_ok=True)
+
+index_html = dedent("""\
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Penrose, Dirac, and Holography</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #5b6472;
+      --paper: #f7f8fb;
+      --card: #ffffff;
+      --line: #d9dee8;
+      --accent: #1d4ed8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main {
+      width: min(860px, calc(100% - 32px));
+      margin: 48px auto 64px;
+    }
+    h1 { font-size: clamp(1.85rem, 4vw, 2.65rem); margin: 0 0 6px; }
+    h2 { font-size: 1.22rem; margin: 0 0 10px; }
+    .subtitle { color: var(--muted); margin: 0 0 28px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 16px 0;
+      box-shadow: 0 2px 10px rgba(31, 41, 55, .04);
+    }
+    a { color: var(--accent); font-weight: 650; }
+    code {
+      background: #eef2ff;
+      padding: .12em .38em;
+      border-radius: 4px;
+      overflow-wrap: anywhere;
+    }
+    ol { padding-left: 1.35rem; margin-bottom: 0; }
+    li + li { margin-top: .55rem; }
+    .button {
+      display: inline-block;
+      padding: .62rem .9rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 4px;
+    }
+    .note { color: var(--muted); font-size: .94rem; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Penrose, Dirac, and Holography</h1>
+    <p class="subtitle">Video, local audio, transcripts, and a reusable page-generation skill.</p>
+
+    <section class="card">
+      <h2>Original YouTube video</h2>
+      <a class="button" href="https://www.youtube.com/watch?v=FwJbAEGUm0w" target="_blank" rel="noopener">
+        Watch on YouTube
+      </a>
+    </section>
+
+    <section class="card">
+      <h2>Audio file</h2>
+      <p>
+        <a href="penrose-dirac-holo.mp3" download>Download <code>penrose-dirac-holo.mp3</code></a>
+      </p>
+      <p class="note">
+        This link works when this page and the MP3 are in the same folder:
+        <code>~/Documents/books/quantum</code>.
+      </p>
+      <h2>How to access it on macOS</h2>
+      <ol>
+        <li>Save this <code>index.html</code> file in <code>~/Documents/books/quantum</code>.</li>
+        <li>Confirm that <code>penrose-dirac-holo.mp3</code> is in that same folder.</li>
+        <li>Double-click <code>index.html</code> in Finder, then select the audio download link above.</li>
+        <li>
+          If your browser blocks a local download, open Terminal and run:
+          <br><code>cd ~/Documents/books/quantum && python3 -m http.server 8000</code>
+          <br>Then open <code>http://localhost:8000</code> in your browser.
+        </li>
+      </ol>
+    </section>
+
+    <section class="card">
+      <h2>Transcripts</h2>
+      <p><a href="penrose-dirac-holo-en.txt">English transcript: <code>penrose-dirac-holo-en.txt</code></a></p>
+      <p><a href="penrose-dirac-holo-ru.txt">Russian transcript: <code>penrose-dirac-holo-ru.txt</code></a></p>
+      <p class="note">These links also assume the transcript files are stored alongside this page.</p>
+    </section>
+
+    <section class="card">
+      <h2>Reusable skill</h2>
+      <p>
+        <a href="youtube-video-resource-page-skill.md">
+          Skill: create a local video-resource page from a YouTube URL
+        </a>
+      </p>
+      <p class="note">
+        The skill defines the inputs, naming convention, HTML structure, and local hosting instructions for future videos.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
+""")
+
+skill_md = dedent("""\
+# Skill: YouTube Video Resource Page
+
+## Purpose
+
+Given a YouTube URL and local transcript/audio filenames, generate a clean `index.html` resource page that links to:
+
+1. The original YouTube video.
+2. A locally stored MP3 audio file.
+3. English and Russian transcript files.
+4. Clear macOS instructions for opening or downloading the local resources.
+
+## Required inputs
+
+- `youtube_url`: Full YouTube video URL.
+- `title`: Page title.
+- `folder`: Local macOS destination folder, usually `~/Documents/books/quantum`.
+- `audio_filename`: For example, `penrose-dirac-holo.mp3`.
+- `english_transcript_filename`: For example, `penrose-dirac-holo-en.txt`.
+- `russian_transcript_filename`: For example, `penrose-dirac-holo-ru.txt`.
+- `slug`: Short filename prefix, such as `penrose-dirac-holo`.
+
+## Expected output files
+
+Create these files in the same folder:
+
+```text
+index.html
+<audio_filename>
+<english_transcript_filename>
+<russian_transcript_filename>
